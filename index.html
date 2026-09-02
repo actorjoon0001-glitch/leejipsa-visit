@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>이집사 — 방문예약</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Serif+KR:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="topbar">
+    <div class="brand">
+      <span class="brand-mark">LEEJIPSA</span>
+      <span class="brand-sub">HOUSE &amp; BUILD</span>
+    </div>
+    <span class="topbar-tag">이집사 · 방문예약</span>
+  </nav>
+
+  <main class="page">
+    <form id="reservation-form" class="card" novalidate>
+      <header class="card-header">
+        <div class="eyebrow">VISIT RESERVATION</div>
+        <h1>방문 상담 예약</h1>
+        <p>지어드릴 집의 첫 만남을 위해, 아래 정보를 남겨주세요.<br />입력하신 내용은 상담 안내 및 예약 확인 용도로만 사용됩니다.</p>
+      </header>
+
+      <section class="section">
+        <h2 class="section-title"><span class="dot"></span>기본 정보</h2>
+
+        <div class="field">
+          <label for="name">이름</label>
+          <input type="text" id="name" name="name" placeholder="예: 홍길동" required />
+        </div>
+
+        <div class="field">
+          <label for="phone">연락처</label>
+          <input type="tel" id="phone" name="phone" placeholder="예: 010-1234-5678" inputmode="numeric" maxlength="13" required />
+        </div>
+
+        <div class="row two">
+          <div class="field">
+            <label for="visit-date">방문일</label>
+            <input type="date" id="visit-date" name="visitDate" required />
+          </div>
+          <div class="field">
+            <label for="visit-time">
+              방문시간 <span class="badge">1시간 단위</span>
+            </label>
+            <select id="visit-time" name="visitTime" required>
+              <option value="">선택</option>
+              <option>10:00</option>
+              <option>11:00</option>
+              <option>12:00</option>
+              <option>13:00</option>
+              <option>14:00</option>
+              <option>15:00</option>
+              <option>16:00</option>
+              <option>17:00</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="visitors">방문 인원</label>
+          <select id="visitors" name="visitors" required>
+            <option value="">선택</option>
+            <option>1명</option>
+            <option>2명</option>
+            <option>3명</option>
+            <option>4명</option>
+            <option>5명 이상</option>
+          </select>
+          <p class="hint">동행 인원 포함 총 인원수를 선택해주세요.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title"><span class="dot"></span>관심 / 조건</h2>
+
+        <div class="field">
+          <label for="house-type">관심 주택 / 시공 유형</label>
+          <select id="house-type" name="houseType">
+            <option value="">선택</option>
+            <option>전원주택</option>
+            <option>세컨하우스</option>
+            <option>이동식주택</option>
+            <option>체류형쉼터</option>
+            <option>농막</option>
+            <option>컨테이너하우스</option>
+            <option>시골집수리</option>
+            <option>리모델링</option>
+            <option>철거</option>
+            <option>미정</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="pyeong">희망 평수</label>
+          <select id="pyeong" name="pyeong">
+            <option value="">선택</option>
+            <option>1 ~ 5평</option>
+            <option>6 ~ 10평</option>
+            <option>11 ~ 15평</option>
+            <option>16 ~ 20평</option>
+            <option>21 ~ 25평</option>
+            <option>26 ~ 30평</option>
+            <option>31 ~ 35평</option>
+            <option>36 ~ 40평</option>
+            <option>41 ~ 45평</option>
+            <option>46 ~ 50평</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="budget">예산 범위 (대략)</label>
+          <select id="budget" name="budget">
+            <option value="">선택</option>
+            <option>3천만원 이하</option>
+            <option>5천만원 이하</option>
+            <option>5천 ~ 8천만원</option>
+            <option>8천만원 ~ 1억</option>
+            <option>1억 이상</option>
+            <option>미정</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="build-timing">건축 희망시기</label>
+          <select id="build-timing" name="buildTiming">
+            <option value="">선택</option>
+            <option>1개월 이내</option>
+            <option>3개월 이내</option>
+            <option>6개월 이내</option>
+            <option>1년 이내</option>
+            <option>1년 이후</option>
+            <option>미정</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="land-owned">토지 보유 여부</label>
+          <select id="land-owned" name="landOwned">
+            <option value="">선택</option>
+            <option>보유 중</option>
+            <option>계약 진행 중</option>
+            <option>알아보는 중</option>
+            <option>미보유</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="land-address">
+            토지(지번) <span class="badge badge-soft">추천</span>
+          </label>
+          <input type="text" id="land-address" name="landAddress" placeholder="예: 경기도 여주시 가남읍 태평리 123-4" />
+          <p class="hint">시/군/읍면동 + 리 + 번지를 한 줄로 입력해주세요.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title"><span class="dot"></span>3D 도면</h2>
+
+        <div class="field">
+          <label for="drawing-3d">3D 도면 희망 여부</label>
+          <select id="drawing-3d" name="drawing3d">
+            <option value="">선택</option>
+            <option>희망</option>
+            <option>비희망</option>
+            <option>상담 후 결정</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title"><span class="dot"></span>추가 메모</h2>
+
+        <div class="field">
+          <label for="memo">메모</label>
+          <textarea id="memo" name="memo" rows="4" placeholder="추가로 전달하고 싶은 내용이 있으면 적어주세요."></textarea>
+        </div>
+      </section>
+
+      <div class="agree">
+        <label>
+          <input type="checkbox" id="agree" name="agree" required />
+          <span>개인정보 수집·이용에 동의합니다.</span>
+        </label>
+      </div>
+
+      <button type="submit" class="submit">
+        <span>방문예약 접수</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </button>
+    </form>
+
+    <footer class="page-foot">
+      <!-- TODO: 실제 연락처 / 주소로 교체 -->
+      <div class="foot-row">
+        <span>이집사 LEEJIPSA</span>
+        <span>0000-0000 · contact@leejipsa.co.kr</span>
+      </div>
+      <div class="foot-row muted">
+        <span>○○도 ○○시 ○○로 00</span>
+        <span>© 2026 LEEJIPSA. All rights reserved.</span>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
