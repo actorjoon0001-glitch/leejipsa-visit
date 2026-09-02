@@ -23,53 +23,47 @@
       <header class="card-header">
         <div class="eyebrow">HOUSE INQUIRY</div>
         <h1>이 집 문의하기</h1>
-        <p>영상에서 보신 집에 대해 궁금한 점을 남겨주세요.<br />확인 후 직접 연락드립니다.</p>
+        <p>영상에서 보신 집에 대해 궁금한 점을 남겨주세요.<br />이집사가 직접 연락드립니다.</p>
       </header>
 
-      <!-- 문의 대상 집: 영상 링크의 ?h= 파라미터로 자동 기록됩니다. 예) /ask?h=034 -->
-      <section class="house" id="house-block">
+      <!-- 문의 대상 집: 영상 설명란 링크의 ?h= 파라미터로만 채워진다. 사용자가 입력하지 않는다. -->
+      <section class="house" id="house-block" hidden>
         <div class="house-label">문의하시는 집</div>
-
-        <div class="house-known" id="house-known" hidden>
-          <span class="house-code" id="house-code-view">#000</span>
-          <span class="house-note">영상에서 보신 집으로 접수됩니다.</span>
-        </div>
-
-        <div class="house-unknown field" id="house-unknown">
-          <label for="house-code-input">집 번호</label>
-          <input type="text" id="house-code-input" name="houseCodeInput" placeholder="예: 034" inputmode="numeric" maxlength="8" />
-          <p class="hint">영상 설명란의 집 번호를 적어주세요. 모르시면 비워두셔도 됩니다.</p>
-        </div>
-
+        <div class="house-value" id="house-value">—</div>
         <input type="hidden" id="house-code" name="houseCode" value="" />
       </section>
 
       <section class="section">
         <div class="field">
+          <label for="name">이름</label>
+          <input type="text" id="name" name="name" placeholder="예: 홍길동" autocomplete="name" required />
+        </div>
+
+        <div class="field">
           <label for="phone">연락처</label>
-          <input type="tel" id="phone" name="phone" placeholder="예: 010-1234-5678" inputmode="numeric" maxlength="13" required />
+          <input type="tel" id="phone" name="phone" placeholder="010-1234-5678" inputmode="numeric" autocomplete="tel" maxlength="13" required />
           <p class="hint">문자 또는 전화로 안내드립니다.</p>
         </div>
 
         <div class="field">
-          <label>관심 있는 부분</label>
+          <label>관심 있는 부분 <span class="badge">복수 선택</span></label>
           <div class="choices" id="interest-group">
             <label class="choice">
-              <input type="radio" name="interest" value="가격" required />
+              <input type="checkbox" name="interest" value="가격" />
               <span class="choice-body">
                 <span class="choice-title">가격</span>
                 <span class="choice-desc">이 집을 지으면 얼마인지 알고 싶어요</span>
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="interest" value="시공사 연결" />
+              <input type="checkbox" name="interest" value="시공사 연결" />
               <span class="choice-body">
                 <span class="choice-title">시공사 연결</span>
                 <span class="choice-desc">이 집을 만든 곳과 이야기해보고 싶어요</span>
               </span>
             </label>
             <label class="choice">
-              <input type="radio" name="interest" value="비슷한 집 추천" />
+              <input type="checkbox" name="interest" value="비슷한 집 추천" />
               <span class="choice-body">
                 <span class="choice-title">비슷한 집 추천</span>
                 <span class="choice-desc">이런 느낌의 다른 집도 보고 싶어요</span>
@@ -110,6 +104,11 @@
             </select>
           </div>
         </div>
+
+        <div class="field">
+          <label for="question">궁금한 점 <span class="badge">선택사항</span></label>
+          <textarea id="question" name="question" rows="4" placeholder="이 집에 대해 궁금한 점을 편하게 적어주세요."></textarea>
+        </div>
       </section>
 
       <div class="agree">
@@ -117,6 +116,7 @@
           <input type="checkbox" id="agree" name="agree" required />
           <span>개인정보 수집·이용에 동의합니다. (문의 답변 목적)</span>
         </label>
+        <a class="agree-link" href="privacy.html" target="_blank" rel="noopener">전문 보기</a>
       </div>
 
       <button type="submit" class="submit">
@@ -124,25 +124,50 @@
         <span class="arrow" aria-hidden="true">→</span>
       </button>
 
+      <p class="promise">영업일 기준 <strong>24시간 안에</strong> 연락드립니다.</p>
+
       <p class="disclosure">
         이집사는 <strong>모듈러주택을 만드는 사람</strong>이 운영합니다.<br />
         그래서 다른 브랜드의 집도 제대로 보고 말씀드립니다.
       </p>
     </form>
 
+    <section class="card done" id="done" hidden>
+      <div class="done-mark" aria-hidden="true">✓</div>
+      <h2>접수됐습니다</h2>
+      <p class="done-desc">영업일 기준 24시간 안에 이집사가 직접 연락드립니다.</p>
+
+      <div class="receipt">
+        <span class="receipt-label">접수번호</span>
+        <span class="receipt-no" id="receipt-no">—</span>
+      </div>
+      <p class="done-house" id="done-house" hidden></p>
+
+      <!-- TODO: 실제 유튜브 채널 주소로 교체 -->
+      <a class="submit done-link" href="https://www.youtube.com/@leejipsa" target="_blank" rel="noopener">
+        <span>유튜브 채널로 돌아가기</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+
     <footer class="page-foot">
-      <!-- TODO: 실제 연락처 / 주소로 교체 -->
+      <!-- TODO: 실제 상호 / 사업자번호 / 연락처 / 주소로 교체 -->
       <div class="foot-row">
         <span>이집사 LEEJIPSA</span>
         <span>0000-0000 · contact@leejipsa.co.kr</span>
       </div>
       <div class="foot-row muted">
+        <span>사업자등록번호 000-00-00000</span>
         <span>○○도 ○○시 ○○로 00</span>
+      </div>
+      <div class="foot-row muted">
+        <a href="privacy.html" target="_blank" rel="noopener">개인정보 취급방침</a>
         <span>© 2026 LEEJIPSA. All rights reserved.</span>
       </div>
     </footer>
   </main>
 
+  <script src="houses.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

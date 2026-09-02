@@ -2,32 +2,31 @@
   const form = document.getElementById("inquiry-form");
   if (!form) return;
 
-  /* 1. 문의 대상 집 코드
-     영상 설명란 링크에 ?h=034 형태로 집 번호를 달아두면 자동으로 기록된다.
-     파라미터가 없으면 직접 입력 칸을 보여준다. */
+  /* 1. 문의 대상 집
+     영상 설명란 링크의 ?h=034 로만 채워진다. 사용자는 입력하지 않는다.
+     이름은 houses.js의 카탈로그에서 찾고, 없으면 번호만 보여준다. */
+  const houseBlock = document.getElementById("house-block");
+  const houseValue = document.getElementById("house-value");
   const codeField = document.getElementById("house-code");
-  const knownBox = document.getElementById("house-known");
-  const unknownBox = document.getElementById("house-unknown");
-  const codeView = document.getElementById("house-code-view");
-  const codeInput = document.getElementById("house-code-input");
 
   const params = new URLSearchParams(window.location.search);
-  const rawCode = (params.get("h") || params.get("house") || "").trim();
-  const code = rawCode.replace(/[^0-9A-Za-z\-]/g, "").slice(0, 8);
+  const code = (params.get("h") || params.get("house") || "")
+    .trim()
+    .replace(/[^0-9A-Za-z-]/g, "")
+    .slice(0, 8);
+
+  const catalog = window.LEEJIPSA_HOUSES || {};
+  const houseName = code ? catalog[code] : "";
+  const houseLabel = code ? (houseName ? `${code}번 · ${houseName}` : `${code}번 집`) : "";
 
   if (code) {
     codeField.value = code;
-    codeView.textContent = `#${code}`;
-    knownBox.hidden = false;
-    unknownBox.hidden = true;
-    codeInput.removeAttribute("name");
-  } else {
-    codeInput.addEventListener("input", (e) => {
-      codeField.value = e.target.value.trim();
-    });
+    houseValue.textContent = houseLabel;
+    houseBlock.hidden = false;
   }
 
   /* 2. 연락처 자동 하이픈 */
+  const nameInput = document.getElementById("name");
   const phone = document.getElementById("phone");
   const formatPhone = (raw) => {
     const d = raw.replace(/\D/g, "").slice(0, 11);
@@ -51,39 +50,71 @@
   choices.forEach((el) => el.addEventListener("change", paintChoices));
   paintChoices();
 
-  /* 4. 접수 */
+  /* 4. 접수번호: LJ-260902-4821 */
+  const makeReceiptNo = () => {
+    const now = new Date();
+    const p = (n) => String(n).padStart(2, "0");
+    const ymd = `${String(now.getFullYear()).slice(2)}${p(now.getMonth() + 1)}${p(now.getDate())}`;
+    const rand = String(Math.floor(Math.random() * 10000)).padStart(4, "0");
+    return `LJ-${ymd}-${rand}`;
+  };
+
+  /* 5. 접수 */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    if (!phone.value || phone.value.replace(/\D/g, "").length < 10) {
+    if (!nameInput.value.trim()) {
+      nameInput.focus();
+      alert("이름을 입력해주세요.");
+      return;
+    }
+
+    if (phone.value.replace(/\D/g, "").length < 10) {
       phone.focus();
       alert("연락처를 정확히 입력해주세요.");
       return;
     }
 
-    const interest = form.querySelector('input[name="interest"]:checked');
-    if (!interest) {
-      alert("관심 있는 부분을 선택해주세요.");
+    const interests = Array.from(
+      form.querySelectorAll('input[name="interest"]:checked')
+    ).map((el) => el.value);
+    if (interests.length === 0) {
+      alert("관심 있는 부분을 하나 이상 선택해주세요.");
       return;
     }
 
-    const agree = document.getElementById("agree");
-    if (!agree.checked) {
+    if (!document.getElementById("agree").checked) {
       alert("개인정보 수집·이용에 동의해주세요.");
       return;
     }
 
-    const data = Object.fromEntries(new FormData(form).entries());
-    data.houseCode = codeField.value || "";
-    data.submittedAt = new Date().toISOString();
-    data.pageUrl = window.location.href;
+    const receiptNo = makeReceiptNo();
+    const data = {
+      receiptNo,
+      houseCode: code,
+      houseName: houseName || "",
+      name: nameInput.value.trim(),
+      phone: phone.value,
+      interest: interests.join(", "),
+      budget: document.getElementById("budget").value,
+      region: document.getElementById("region").value,
+      question: document.getElementById("question").value.trim(),
+      submittedAt: new Date().toISOString(),
+      pageUrl: window.location.href,
+    };
 
     // TODO: 실제 전송(구글 시트 / 메일 / 알림톡)으로 교체
     console.log("이 집 문의", data);
 
-    const label = data.houseCode ? `${data.houseCode}번 집` : "문의";
-    alert(`${label} 문의가 접수되었습니다.\n확인 후 연락드리겠습니다.`);
-    form.reset();
-    paintChoices();
+    /* 6. 완료 화면 */
+    document.getElementById("receipt-no").textContent = receiptNo;
+    const doneHouse = document.getElementById("done-house");
+    if (houseLabel) {
+      doneHouse.textContent = `문의하신 집 · ${houseLabel}`;
+      doneHouse.hidden = false;
+    }
+    form.hidden = true;
+    document.getElementById("done").hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 })();
