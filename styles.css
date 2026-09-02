@@ -20,6 +20,8 @@
 
 * { box-sizing: border-box; }
 
+[hidden] { display: none !important; }
+
 html, body {
   margin: 0;
   padding: 0;
@@ -141,30 +143,6 @@ html, body {
   padding-top: 30px;
 }
 
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--serif-ko);
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 0 22px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--ink);
-  color: var(--ink);
-  letter-spacing: 0.01em;
-}
-
-.section-title .dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background: var(--accent);
-  border-radius: 0;
-  transform: rotate(45deg);
-  margin-right: 2px;
-}
-
 /* Field */
 .field {
   margin-bottom: 20px;
@@ -184,9 +162,7 @@ html, body {
 
 input[type="text"],
 input[type="tel"],
-input[type="date"],
-select,
-textarea {
+select {
   width: 100%;
   padding: 12px 0;
   background: transparent;
@@ -200,15 +176,13 @@ textarea {
   transition: border-color 0.2s;
 }
 
-input::placeholder,
-textarea::placeholder {
+input::placeholder {
   color: var(--ink-mute);
   font-weight: 400;
 }
 
 input:focus,
-select:focus,
-textarea:focus {
+select:focus {
   border-bottom-color: var(--ink);
 }
 
@@ -220,18 +194,6 @@ select {
   background-position: right 2px center;
   padding-right: 24px;
   cursor: pointer;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 100px;
-  border: 1px solid var(--line);
-  padding: 12px 14px;
-  background: var(--input-bg);
-}
-
-textarea:focus {
-  border-color: var(--ink);
 }
 
 .row.two {
@@ -266,6 +228,113 @@ textarea:focus {
   background: var(--accent-soft);
 }
 
+/* 문의 대상 집 */
+.house {
+  padding: 22px 36px;
+  border-top: 1px solid var(--line);
+  background: var(--accent-soft);
+}
+
+.house-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.house-known {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.house-code {
+  font-family: var(--serif-en);
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.house-note {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.house .field { margin-bottom: 0; }
+.house .field > label { color: var(--ink-soft); }
+.house input { border-bottom-color: var(--accent); }
+
+/* 선택지 */
+.choices {
+  display: grid;
+  gap: 10px;
+}
+
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  background: var(--input-bg);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.choice input[type="radio"] {
+  margin: 2px 0 0;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--ink);
+  flex: none;
+}
+
+.choice-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.choice-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.choice-desc {
+  font-size: 12px;
+  color: var(--ink-mute);
+  line-height: 1.5;
+}
+
+.choice:hover { border-color: var(--ink-soft); }
+
+.choice.is-selected,
+.choice:has(input:checked) {
+  border-color: var(--ink);
+  background: var(--paper);
+}
+
+/* 포지션 안내 */
+.disclosure {
+  margin: 0;
+  padding: 0 36px 32px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--ink-mute);
+  text-align: center;
+}
+
+.disclosure strong {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
 /* Consent */
 .agree {
   padding: 22px 36px 6px;
@@ -295,7 +364,7 @@ textarea:focus {
   justify-content: center;
   gap: 12px;
   width: calc(100% - 72px);
-  margin: 22px 36px 36px;
+  margin: 22px 36px 20px;
   padding: 18px 20px;
   background: var(--ink);
   color: #fff;
@@ -358,8 +427,11 @@ textarea:focus {
   .card-header { padding: 32px 22px 24px; }
   .card-header h1 { font-size: 24px; }
   .section { padding: 24px 22px 8px; }
+  .house { padding: 18px 22px; }
+  .house-code { font-size: 26px; }
+  .disclosure { padding: 0 22px 26px; }
   .agree { padding: 18px 22px 4px; }
-  .submit { width: calc(100% - 44px); margin: 18px 22px 26px; padding: 16px 14px; letter-spacing: 0.24em; }
+  .submit { width: calc(100% - 44px); margin: 18px 22px 16px; padding: 16px 14px; letter-spacing: 0.24em; }
   .row.two { grid-template-columns: 1fr; gap: 0; }
   .foot-row {
     flex-direction: column;
