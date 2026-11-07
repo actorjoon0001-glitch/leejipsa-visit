@@ -162,6 +162,7 @@ html, body {
 
 input[type="text"],
 input[type="tel"],
+input[type="date"],
 select,
 textarea {
   width: 100%;
@@ -317,6 +318,36 @@ textarea:focus { border-color: var(--ink); }
   border-color: var(--ink);
   background: var(--paper);
 }
+
+/* 방문 예약 */
+.field > label.visit-toggle {
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  color: inherit;
+}
+
+.visit-fields {
+  margin-top: 4px;
+  padding: 20px 0 4px 18px;
+  border-left: 2px solid var(--accent);
+}
+
+.visit-fields > .field:last-of-type { margin-bottom: 0; }
+.visit-fields > .hint { margin-top: 12px; }
+
+.done-visit {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+.done-visit strong { color: var(--ink); font-weight: 600; }
 
 /* 포지션 안내 */
 .disclosure {
@@ -592,6 +623,7 @@ textarea:focus { border-color: var(--ink); }
   .done { padding: 40px 22px 30px; }
   .doc .done-link { margin: 0 22px 26px; width: calc(100% - 44px); }
   .agree { flex-wrap: wrap; gap: 8px; }
+  .visit-fields { padding-left: 14px; }
   .agree { padding: 18px 22px 4px; }
   .submit { width: calc(100% - 44px); margin: 18px 22px 16px; padding: 16px 14px; letter-spacing: 0.24em; }
   .row.two { grid-template-columns: 1fr; gap: 0; }
