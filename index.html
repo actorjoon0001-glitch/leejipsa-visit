@@ -72,6 +72,54 @@
           </div>
         </div>
 
+        <!-- 방문 예약: 체크한 사람에게만 날짜·시간·인원 칸을 펼친다 -->
+        <div class="field visit">
+          <label class="choice visit-toggle" for="visit-wanted">
+            <input type="checkbox" id="visit-wanted" name="visitWanted" value="방문 상담 희망" aria-controls="visit-fields" aria-expanded="false" />
+            <span class="choice-body">
+              <span class="choice-title">방문 상담도 예약할게요</span>
+              <span class="choice-desc">직접 만나서 보고 이야기 나누고 싶어요</span>
+            </span>
+          </label>
+
+          <div class="visit-fields" id="visit-fields" hidden>
+            <div class="row two">
+              <div class="field">
+                <label for="visit-date">방문 희망일</label>
+                <input type="date" id="visit-date" name="visitDate" />
+              </div>
+              <div class="field">
+                <label for="visit-time">방문 시간 <span class="badge">1시간 단위</span></label>
+                <select id="visit-time" name="visitTime">
+                  <option value="">선택</option>
+                  <option>10:00</option>
+                  <option>11:00</option>
+                  <option>12:00</option>
+                  <option>13:00</option>
+                  <option>14:00</option>
+                  <option>15:00</option>
+                  <option>16:00</option>
+                  <option>17:00</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="visitors">방문 인원</label>
+              <select id="visitors" name="visitors">
+                <option value="">선택</option>
+                <option>1명</option>
+                <option>2명</option>
+                <option>3명</option>
+                <option>4명</option>
+                <option>5명 이상</option>
+              </select>
+            </div>
+
+            <p class="hint">희망 일정을 받은 뒤, 연락드릴 때 방문 장소와 시간을 확정해 드립니다.</p>
+          </div>
+        </div>
+
         <div class="row two">
           <div class="field">
             <label for="budget">예산대 <span class="badge">선택사항</span></label>
@@ -142,6 +190,7 @@
         <span class="receipt-no" id="receipt-no">—</span>
       </div>
       <p class="done-house" id="done-house" hidden></p>
+      <p class="done-visit" id="done-visit" hidden></p>
 
       <!-- TODO: 실제 유튜브 채널 주소로 교체 -->
       <a class="submit done-link" href="https://www.youtube.com/@leejipsa" target="_blank" rel="noopener">

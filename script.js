@@ -50,7 +50,37 @@
   choices.forEach((el) => el.addEventListener("change", paintChoices));
   paintChoices();
 
-  /* 4. 접수번호: LJ-260902-4821 */
+  /* 4. 방문 예약: 체크하면 날짜·시간·인원 칸을 펼친다 */
+  const visitToggle = document.getElementById("visit-wanted");
+  const visitFields = document.getElementById("visit-fields");
+  const visitDate = document.getElementById("visit-date");
+  const visitTime = document.getElementById("visit-time");
+  const visitors = document.getElementById("visitors");
+
+  const toYmd = (d) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const todayYmd = toYmd(new Date());
+  visitDate.min = todayYmd;
+
+  const syncVisit = () => {
+    const on = visitToggle.checked;
+    visitFields.hidden = !on;
+    visitToggle.setAttribute("aria-expanded", String(on));
+    [visitDate, visitTime, visitors].forEach((el) => {
+      el.required = on;
+    });
+  };
+  visitToggle.addEventListener("change", syncVisit);
+  syncVisit();
+
+  const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
+  const formatVisitDate = (ymd) => {
+    const [y, m, d] = ymd.split("-").map(Number);
+    const date = new Date(y, m - 1, d);
+    return `${m}월 ${d}일(${WEEKDAYS[date.getDay()]})`;
+  };
+
+  /* 5. 접수번호: LJ-260902-4821 */
   const makeReceiptNo = () => {
     const now = new Date();
     const p = (n) => String(n).padStart(2, "0");
@@ -59,7 +89,7 @@
     return `LJ-${ymd}-${rand}`;
   };
 
-  /* 5. 접수 */
+  /* 6. 접수 */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -83,6 +113,30 @@
       return;
     }
 
+    const wantsVisit = visitToggle.checked;
+    if (wantsVisit) {
+      if (!visitDate.value) {
+        visitDate.focus();
+        alert("방문 희망일을 선택해주세요.");
+        return;
+      }
+      if (visitDate.value < todayYmd) {
+        visitDate.focus();
+        alert("방문 희망일은 오늘 이후로 선택해주세요.");
+        return;
+      }
+      if (!visitTime.value) {
+        visitTime.focus();
+        alert("방문 시간을 선택해주세요.");
+        return;
+      }
+      if (!visitors.value) {
+        visitors.focus();
+        alert("방문 인원을 선택해주세요.");
+        return;
+      }
+    }
+
     if (!document.getElementById("agree").checked) {
       alert("개인정보 수집·이용에 동의해주세요.");
       return;
@@ -99,6 +153,10 @@
       budget: document.getElementById("budget").value,
       region: document.getElementById("region").value,
       question: document.getElementById("question").value.trim(),
+      visitWanted: wantsVisit,
+      visitDate: wantsVisit ? visitDate.value : "",
+      visitTime: wantsVisit ? visitTime.value : "",
+      visitors: wantsVisit ? visitors.value : "",
       submittedAt: new Date().toISOString(),
       pageUrl: window.location.href,
     };
@@ -106,12 +164,20 @@
     // TODO: 실제 전송(구글 시트 / 메일 / 알림톡)으로 교체
     console.log("이 집 문의", data);
 
-    /* 6. 완료 화면 */
+    /* 7. 완료 화면 */
     document.getElementById("receipt-no").textContent = receiptNo;
     const doneHouse = document.getElementById("done-house");
     if (houseLabel) {
       doneHouse.textContent = `문의하신 집 · ${houseLabel}`;
       doneHouse.hidden = false;
+    }
+    const doneVisit = document.getElementById("done-visit");
+    if (wantsVisit) {
+      doneVisit.innerHTML = "";
+      const strong = document.createElement("strong");
+      strong.textContent = `방문 희망 · ${formatVisitDate(data.visitDate)} ${data.visitTime} · ${data.visitors}`;
+      doneVisit.append(strong, document.createElement("br"), "방문 장소와 시간은 연락드릴 때 확정해 드립니다.");
+      doneVisit.hidden = false;
     }
     form.hidden = true;
     document.getElementById("done").hidden = false;
